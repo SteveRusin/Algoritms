@@ -1,56 +1,19 @@
-const array = [7, 8, 9, 5, 6, 2, 3, 1, 4];
+const array = [1,2,3,4,5,6,7,8,9,10];
 
-function quickSort(arr, leftInx, rightIndx) {
-    let left;
+function binarySearch(arr, target, start, end) {
+    const middleInx = Math.floor((start + end) / 2);
+    const middle = arr[middleInx];
 
-    if (arr.length > 1) {
-        leftInx = leftInx ? leftInx : 0;
-        rightIndx = rightIndx ? rightIndx : arr.length - 1;
-
-        left = doPartition(arr, leftInx, rightIndx);
-
-        if (leftInx < left - 1) {
-            quickSort(arr, leftInx, left - 1);
-        }
-
-        if(left < rightIndx) {
-            quickSort(arr, left, rightIndx);
-        }
+    if (target === middle) {
+        return middleInx;
+    } else if (target > middle) {
+        return binarySearch(arr, target, middleInx + 1, end);
+    } else if (target < middle) {
+        return binarySearch(arr, target, start, middleInx - 1);
     }
 
-    return arr;
+    return -1;
 }
 
 
-console.log('​quickSort(array)', quickSort(array));
-
-
-function swap(item, firstIndex, secondIndex) {
-    const temp = item[firstIndex];
-    item[firstIndex] = item[secondIndex];
-    item[secondIndex] = temp;
-}
-
-function doPartition(arr, leftInx, rightIndx) {
-    const pivotIndex = Math.floor((leftInx + rightIndx) / 2);
-    const pivot = arr[pivotIndex];
-
-
-    while (leftInx <= rightIndx) {
-        while (arr[leftInx] < pivot) {
-            leftInx++;
-        }
-
-        while (arr[rightIndx] > pivot) {
-            rightIndx--;
-        }
-
-        if (leftInx <= rightIndx) {
-            swap(arr, leftInx, rightIndx);
-            leftInx++;
-            rightIndx--;
-        }
-    }
-
-    return leftInx;
-}
+console.log('binarySearch(array)', binarySearch(array, 8, 0, array.length - 1));
