@@ -1,29 +1,56 @@
 const array = [7, 8, 9, 5, 6, 2, 3, 1, 4];
 
-function boobleSort(arr) {
-    const tempArr = arr.slice();
-    let saveVal;
-    for (let i = 0; i < arr.length - 1; i++) {
+function quickSort(arr, leftInx, rightIndx) {
+    let left;
 
-        for (let j = 0; j < arr.length - 1; j++) {
-            let leftVal = tempArr[j];
-            let rightVal = tempArr[j + 1];
+    if (arr.length > 1) {
+        leftInx = leftInx ? leftInx : 0;
+        rightIndx = rightIndx ? rightIndx : arr.length - 1;
 
-            if (leftVal > rightVal) {
-                saveVal = leftVal;
-                tempArr[j] = rightVal;
-                tempArr[j + 1] = saveVal;
-            } else {
-                tempArr[j] = leftVal;
-                tempArr[j + 1] = rightVal;
-            }
+        left = doPartition(arr, leftInx, rightIndx);
 
+        if (leftInx < left - 1) {
+            quickSort(arr, leftInx, left - 1);
+        }
 
-
+        if(left < rightIndx) {
+            quickSort(arr, left, rightIndx);
         }
     }
-    return tempArr;
+
+    return arr;
 }
 
 
-console.log('​boobleSort(array)', boobleSort(array));
+console.log('​quickSort(array)', quickSort(array));
+
+
+function swap(item, firstIndex, secondIndex) {
+    const temp = item[firstIndex];
+    item[firstIndex] = item[secondIndex];
+    item[secondIndex] = temp;
+}
+
+function doPartition(arr, leftInx, rightIndx) {
+    const pivotIndex = Math.floor((leftInx + rightIndx) / 2);
+    const pivot = arr[pivotIndex];
+
+
+    while (leftInx <= rightIndx) {
+        while (arr[leftInx] < pivot) {
+            leftInx++;
+        }
+
+        while (arr[rightIndx] > pivot) {
+            rightIndx--;
+        }
+
+        if (leftInx <= rightIndx) {
+            swap(arr, leftInx, rightIndx);
+            leftInx++;
+            rightIndx--;
+        }
+    }
+
+    return leftInx;
+}
