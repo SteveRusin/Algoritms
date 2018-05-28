@@ -1,19 +1,32 @@
-const array = [1,2,3,4,5,6,7,8,9,10];
+const array = [1, 2, 5, 6, 8, 10, 15, 19, 25, 28, 29, 32, 35, 41, 46, 48, 50];
 
-function binarySearch(arr, target, start, end) {
-    const middleInx = Math.floor((start + end) / 2);
-    const middle = arr[middleInx];
+function interpolationSearch(arr, searchValue) {
+    let min = 0;
+    let max = arr.length - 1;
+    let distance;
+    let valRange;
+    let fraction;
+    let estimatePos;
 
-    if (target === middle) {
-        return middleInx;
-    } else if (target > middle) {
-        return binarySearch(arr, target, middleInx + 1, end);
-    } else if (target < middle) {
-        return binarySearch(arr, target, start, middleInx - 1);
+    while (min < max && searchValue >= arr[min] && searchValue <= arr[max]) {
+        distance = searchValue - arr[min];
+        valRange = arr[max] - arr[min];
+        fraction = distance / valRange;
+        estimatePos = Math.floor(fraction * max);
+
+        if(arr[estimatePos] === searchValue){
+            return estimatePos;
+        }
+
+        if(arr[estimatePos] < searchValue){
+            min = estimatePos + 1;
+        }else{
+            max = estimatePos - 1;
+        }
     }
-
     return -1;
+    
 }
 
 
-console.log('binarySearch(array)', binarySearch(array, 8, 0, array.length - 1));
+console.log(interpolationSearch(array, 48));
