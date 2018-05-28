@@ -1,32 +1,65 @@
 const array = [1, 2, 5, 6, 8, 10, 15, 19, 25, 28, 29, 32, 35, 41, 46, 48, 50];
+const randomArr = shuffle(array);
 
-function interpolationSearch(arr, searchValue) {
-    let min = 0;
-    let max = arr.length - 1;
-    let distance;
-    let valRange;
-    let fraction;
-    let estimatePos;
+function shellSort(arr, searchValue) {
+    let gap = Math.floor(arr.length / 2);
 
-    while (min < max && searchValue >= arr[min] && searchValue <= arr[max]) {
-        distance = searchValue - arr[min];
-        valRange = arr[max] - arr[min];
-        fraction = distance / valRange;
-        estimatePos = Math.floor(fraction * max);
+    for (let i = 0; i + gap < arr.length && gap >= 1; i++, gap = gap / 2) {
+        if (arr[i] > arr[i + gap]) {
+            
+            swap(arr, i, i + gap);
 
-        if(arr[estimatePos] === searchValue){
-            return estimatePos;
-        }
+            for (let j = i; arr[j] > arr[j + gap] && gap === 1; j--) {
+                swap(arr, j, j + gap)
+            }
 
-        if(arr[estimatePos] < searchValue){
-            min = estimatePos + 1;
-        }else{
-            max = estimatePos - 1;
         }
     }
-    return -1;
-    
+
+    return arr;
 }
 
 
-console.log(interpolationSearch(array, 48));
+console.log(shellSort(array, 48));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function swap(arr, fisrtIndx, secondIndx) {
+    const temp = arr[fisrtIndx];
+    arr[fisrtIndx] = arr[secondIndx];
+    arr[secondIndx] = temp;
+}
+
+
+
+
+
+function shuffle(array) {
+    array = array.slice();
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
+    while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
+}
